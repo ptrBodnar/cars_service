@@ -167,5 +167,3 @@ function type(d, _, columns) {
     for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
     return d;
     }
-
-  
