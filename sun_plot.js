@@ -21,7 +21,7 @@ var arc = d3.arc()
     .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
 
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#sunChart").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
@@ -44,7 +44,7 @@ d3.json("car_nested.json", function(error, root) {
 
 function click(d) {
   svg.transition()
-      .duration(750)
+      .duration(300)
       .tween("scale", function() {
         var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
             yd = d3.interpolate(y.domain(), [d.y0, 1]),
@@ -54,7 +54,7 @@ function click(d) {
     .selectAll("path")
       .attrTween("d", function(d) { return function() { return arc(d); }; });
 
-  var name = d.data.name.replace(/\s+/g,'');
+  var name = d.data.name.replace(/\s+/g,' ');
   addCar(name);
 }
 

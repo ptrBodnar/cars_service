@@ -18,13 +18,24 @@ path {
 
 </style>
 <body>
-	<form>
-	  <input id="input" type=text>
-	   <input id ="button" type=button value="Add Number"/>
-	 </form>
 
-<svg width="1200" height="1000"></svg>
+<div id="sunChart"></div>
+
+
+	 <div id="the-basics">
+	   <input class="typeahead" type="text" placeholder="States of USA">
+	   <button type="button" id="button">Click</button>
+	 </div>
+	 
+ <button onclick="exptyLineChart()">Empty Line Chart</button> 
+
+
+<div id="linePlot"></div>
+
 <script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 <script src="line_plot.js"></script>
 <script src="sun_plot.js"></script>
+
 </body>

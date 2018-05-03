@@ -1,15 +1,3 @@
-// var svg = d3.select("svg"),
-//     margin = {top: 20, right: 80, bottom: 30, left: 50},
-//     width = svg.attr("width") - margin.left - margin.right,
-//     height = svg.attr("height") - margin.top - margin.bottom,
-//     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-// var parseTime = d3.timeParse("%Y-%m");
-
-// var x = d3.scaleTime().range([0, width]),
-//     y = d3.scaleLinear().range([height, 0]),
-//     z = d3.scaleOrdinal(d3.schemeCategory10);
-
 
 
 
@@ -17,8 +5,13 @@ function plotLine() {
 
 var currentCars = [];
 
-var svg = d3.select("svg"),
-    margin = {top: 20, right: 80, bottom: 30, left: 50},
+var svg = d3.select("#linePlot")
+            .append("svg")
+            .attr("width", "1100")
+            .attr("height", "600")
+
+
+var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = svg.attr("width") - margin.left - margin.right,
     height = svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -97,16 +90,17 @@ d3.csv("data_wide.csv", type, function(error, data) {
     d3.select("#button").on("click", function(d) {
 
       //you are changing the global value here on change event.      
-      var name = document.getElementById("input").value.replace(/\s/g,'');
-      window.addCar(name);
+      var name = document.querySelectorAll("#the-basics input")[1].value.replace(/\s+/g,' ').trim().toUpperCase();
 
-      document.getElementById("input").value = "";
+
+      document.querySelectorAll("#the-basics input")[1].value = "";
+      addCar(name);
     });
 
     window.addCar = function(name) {
   //x.domain(d3.extent(data, function(d) { return d.date; }));
       currentCars.push(name);
-      var carsOnClick = cars.filter(function (d) {return currentCars.indexOf(d.id.replace(/\s/g,'')) > -1; });
+      var carsOnClick = cars.filter(function (d) {return currentCars.indexOf(d.id.replace(/\s+/g,' ')) > -1; });
       
       console.log(carsOnClick);
       
@@ -150,6 +144,46 @@ d3.csv("data_wide.csv", type, function(error, data) {
         .exit()
         .remove();
     }
+
+    window.exptyLineChart = function() {
+      currentCars = [];
+      addCar();
+    }
+
+    var substringMatcher = function(strs) {
+      return function findMatches(q, cb) {
+        var matches, substringRegex;
+
+        // an array that will be populated with substring matches
+        matches = [];
+
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
+
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function(i, str) {
+          if (substrRegex.test(str)) {
+            matches.push(str);
+          }
+        });
+
+        cb(matches);
+      };
+    };
+
+    var states = [];
+    data.columns.slice(1).map(function(id) {return states.push(id)});
+
+    $('#the-basics .typeahead').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'states',
+      source: substringMatcher(states)
+    });
 
 
 });
