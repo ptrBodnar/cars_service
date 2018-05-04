@@ -7,7 +7,7 @@ var currentCars = [];
 
 var svg = d3.select("#linePlot")
             .append("svg")
-            .attr("width", "700")
+            .attr("width", "900")
             .attr("height", "500")
 
 
@@ -65,7 +65,9 @@ d3.csv("data_wide.csv", type, function(error, data) {
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
-        .attr("fill", "#000");
+        .attr("fill", "#000")
+      .append("title")
+        .text(function(d) { return cars.id; });;
 
 
     var line = d3.line()
