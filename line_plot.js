@@ -19,7 +19,7 @@ var margin = {top: 20, right: 80, bottom: 30, left: 50},
 
 var x = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
-    z = d3.scaleOrdinal(d3.schemeCategory10);
+    z = d3.scaleOrdinal(d3.schemeCategory1);
 
 d3.csv("data_wide.csv", type, function(error, data) {
   if (error) throw error;
@@ -49,7 +49,7 @@ d3.csv("data_wide.csv", type, function(error, data) {
 
 
     //Шкала кольорів
-    var z = d3.scaleOrdinal(d3.schemeCategory10).domain(cars.map(function(c) { return c.id; }));
+    var z = d3.scaleOrdinal(d3.schemeCategory1).domain(cars.map(function(c) { return c.id; }));
 
     // Шкала Х
     g.append("g")
@@ -84,6 +84,7 @@ d3.csv("data_wide.csv", type, function(error, data) {
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return z(d.id); })
+      .style("opacity", .5)
       .append("title")
         .text(function(d) { return d.id });
 
@@ -103,8 +104,8 @@ d3.csv("data_wide.csv", type, function(error, data) {
         data.columns.slice(1).map(function(id) {return namesOfCarModels.push(id.replace(/\s+/g,' '))});
 
      //Here is a place were I filter current cars in order to get counter list for the visual and data output
-      window.currentCars = currentCars.filter(function (d) {return namesOfCarModels.indexOf(d.replace(/\s+/g,' ')) > -1; });
-      window.currentCars = Array.from(new Set(currentCars));
+      // window.currentCars = currentCars.filter(function (d) {return namesOfCarModels.indexOf(d.replace(/\s+/g,' ')) > -1; });
+      // window.currentCars = Array.from(new Set(currentCars));
 
       currentCars.push(name);
       console.log(currentCars);
@@ -139,14 +140,17 @@ d3.csv("data_wide.csv", type, function(error, data) {
        
       carsEnter
           .append("path")
-          .attr("class", "line");
+          .attr("class", "line")
+          .style("opacity", .5)
+          .append("title")
+            .text(function(d) { return d.id });
       
       carsEnter.merge(carsUpd)
           .selectAll("path")
           .transition()
           .duration(1000)
           .attr("d", function(d) { return line(d.values) })
-          .style("stroke", function(d) { return z(d.id); });
+          .style("stroke", function(d) { return z(d.id) });
 
       carsUpd
         .exit()

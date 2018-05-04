@@ -10,7 +10,7 @@ var x = d3.scaleLinear()
 var y = d3.scaleSqrt()
     .range([0, radius]);
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
+//var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 var partition = d3.partition();
 
@@ -37,7 +37,8 @@ d3.json("car_nested.json", function(error, root) {
     .enter().append("path")
     .attr("class", "circlePart")
       .attr("d", arc)
-      .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+      .style("fill", "dodgerblue")
+      // .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
       .on("click", click)
     .append("title")
       .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
