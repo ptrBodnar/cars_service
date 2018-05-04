@@ -65,11 +65,8 @@ d3.csv("data_wide.csv", type, function(error, data) {
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
-        .attr("fill", "#000")
-      .append("title")
-        .text(function(d) { return cars.id; });;
-
-
+        .attr("fill", "#000");
+      
     var line = d3.line()
         .curve(d3.curveBasis)
         .x(function(d) { return x(d.date); })
@@ -80,12 +77,15 @@ d3.csv("data_wide.csv", type, function(error, data) {
       .data(cars, function(d) {return d.id})
       .enter()
       .append("g")
-      .attr("class", "car");
+      .attr("class", "car")
+
 
    car.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
-      .style("stroke", function(d) { return z(d.id); });
+      .style("stroke", function(d) { return z(d.id); })
+      .append("title")
+        .text(function(d) { return d.id });
 
 
     d3.select("#button").on("click", function(d) {
@@ -153,7 +153,7 @@ d3.csv("data_wide.csv", type, function(error, data) {
         .remove();
     }
 
-    window.exptyLineChart = function() {
+    window.emptyLineChart = function() {
       currentCars = [];
       addCar();
     }
