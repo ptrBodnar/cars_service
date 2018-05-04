@@ -1,11 +1,11 @@
-var width = 960,
-    height = 700,
+var width = 600,
+    height = 540,
     radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",d");
 
 var x = d3.scaleLinear()
-    .range([0, 2 * Math.PI]);
+    .range([0, 1 * Math.PI]);
 
 var y = d3.scaleSqrt()
     .range([0, radius]);
@@ -15,8 +15,8 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 var partition = d3.partition();
 
 var arc = d3.arc()
-    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
-    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
+    .startAngle(function(d) { return Math.max(0, Math.min(1 * Math.PI, x(d.x0))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(1 * Math.PI, x(d.x1))); })
     .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
 
@@ -35,6 +35,7 @@ d3.json("car_nested.json", function(error, root) {
   svg.selectAll("path")
       .data(partition(root).descendants())
     .enter().append("path")
+    .attr("class", "circlePart")
       .attr("d", arc)
       .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
       .on("click", click)
@@ -54,7 +55,7 @@ function click(d) {
     .selectAll("path")
       .attrTween("d", function(d) { return function() { return arc(d); }; });
 
-  var name = d.data.name.replace(/\s+/g,' ');
+  var name = d.data.name.replace(/\s+/g,' ').trim().toUpperCase();
   addCar(name);
 }
 

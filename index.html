@@ -16,21 +16,43 @@ path {
   stroke: #fff;
 }
 
+.line:hover {
+				stroke: rgb(175, 240, 91);
+			}
+
+#sunChart {
+	transform: rotate(180deg);
+}
+
+#sunChart  {
+	 z-index: 1;
+	 position: center;
+}
+#linePlot  {
+	 z-index: 2;
+	 position: left;
+}
+
+#container {
+	display: inline-flex;
+	flex-direction: row-reverse;
+	height: 600px;
+}
+
+
 </style>
 <body>
-
-<div id="sunChart"></div>
-
-
-	 <div id="the-basics">
-	   <input class="typeahead" type="text" placeholder="States of USA">
-	   <button type="button" id="button">Click</button>
-	 </div>
-	 
+<div id="the-basics">
+	<input class="typeahead" type="text" placeholder="States of USA">
+	<button type="button" id="button">Click</button>
+</div>
  <button onclick="exptyLineChart()">Empty Line Chart</button> 
 
 
-<div id="linePlot"></div>
+<div id="container">
+    <div id="linePlot"></div>
+    <div id="sunChart"></div>
+</div>
 
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

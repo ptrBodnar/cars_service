@@ -7,8 +7,8 @@ var currentCars = [];
 
 var svg = d3.select("#linePlot")
             .append("svg")
-            .attr("width", "1100")
-            .attr("height", "600")
+            .attr("width", "700")
+            .attr("height", "500")
 
 
 var margin = {top: 20, right: 80, bottom: 30, left: 50},
@@ -65,8 +65,7 @@ d3.csv("data_wide.csv", type, function(error, data) {
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
-        .attr("fill", "#000")
-        .text("number");
+        .attr("fill", "#000");
 
 
     var line = d3.line()
@@ -92,18 +91,25 @@ d3.csv("data_wide.csv", type, function(error, data) {
       //you are changing the global value here on change event.      
       var name = document.querySelectorAll("#the-basics input")[1].value.replace(/\s+/g,' ').trim().toUpperCase();
 
-
       document.querySelectorAll("#the-basics input")[1].value = "";
       addCar(name);
     });
 
     window.addCar = function(name) {
-  //x.domain(d3.extent(data, function(d) { return d.date; }));
+
+        var namesOfCarModels = [];
+        data.columns.slice(1).map(function(id) {return namesOfCarModels.push(id.replace(/\s+/g,' '))});
+
+     //Here is a place were I filter current cars in order to get counter list for the visual and data output
+      window.currentCars = currentCars.filter(function (d) {return namesOfCarModels.indexOf(d.replace(/\s+/g,' ')) > -1; });
+      window.currentCars = Array.from(new Set(currentCars));
+
       currentCars.push(name);
+      console.log(currentCars);
+
+
       var carsOnClick = cars.filter(function (d) {return currentCars.indexOf(d.id.replace(/\s+/g,' ')) > -1; });
-      
-      console.log(carsOnClick);
-      
+
 
       y.domain([
         0,
@@ -172,8 +178,8 @@ d3.csv("data_wide.csv", type, function(error, data) {
       };
     };
 
-    var states = [];
-    data.columns.slice(1).map(function(id) {return states.push(id)});
+    var namesOfCarModels = [];
+    data.columns.slice(1).map(function(id) {return namesOfCarModels.push(id)});
 
     $('#the-basics .typeahead').typeahead({
       hint: true,
@@ -181,9 +187,11 @@ d3.csv("data_wide.csv", type, function(error, data) {
       minLength: 1
     },
     {
-      name: 'states',
-      source: substringMatcher(states)
+      name: 'namesOfCarModels',
+      source: substringMatcher(namesOfCarModels)
     });
+
+
 
 
 });
