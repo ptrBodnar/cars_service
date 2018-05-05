@@ -14,7 +14,7 @@ g.car path {
 
 g path.circlePart {
   stroke: #a2c0d9;
-  stroke-width: .25px;
+  stroke-width: 1px;
 }
 
 path {
@@ -28,6 +28,11 @@ path {
 .circlePart:hover {
 				fill: rgb(300, 0, 0);
 			}
+
+#internalCircle {
+	fill: #f0f8ff;
+	stroke: #f0f8ff;
+}
 
 #sunChart {
 	transform: rotate(180deg);
@@ -54,12 +59,13 @@ path {
 
 
 </style>
-<body>
+<body style="background-color:#F0F8FF;">
 <div id="the-basics">
 	<input class="typeahead" type="text" placeholder="States of USA">
 	<button type="button" id="button">Click</button>
+	<button onclick="emptyLineChart()">Empty Line Chart</button> 
+	<button onclick="deletePreviousLine()">Delete Previous Line</button> 
 </div>
- <button onclick="emptyLineChart()">Empty Line Chart</button> 
 
 
 <div id="container">

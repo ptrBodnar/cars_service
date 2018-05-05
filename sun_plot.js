@@ -7,18 +7,20 @@ var formatNumber = d3.format(",d");
 var x = d3.scaleLinear()
     .range([0, 1 * Math.PI]);
 
-var y = d3.scaleSqrt()
+var y = d3.scaleLinear()
     .range([0, radius]);
 
-//var color = d3.scaleOrdinal(d3.schemeCategory20);
+var color = d3.scaleSequential(d3.interpolateViridis)
+            .domain([0, 1000]);
+
 
 var partition = d3.partition();
 
 var arc = d3.arc()
     .startAngle(function(d) { return Math.max(0, Math.min(1 * Math.PI, x(d.x0))); })
     .endAngle(function(d) { return Math.max(0, Math.min(1 * Math.PI, x(d.x1))); })
-    .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
-    .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
+    .innerRadius(function(d) { return  Math.max(0, y(d.y0))  ; })
+    .outerRadius(function(d) { return  Math.max(0, y(d.y1)) ; });
 
 
 var svg = d3.select("#sunChart").append("svg")
@@ -35,14 +37,20 @@ d3.json("car_nested.json", function(error, root) {
   svg.selectAll("path")
       .data(partition(root).descendants())
     .enter().append("path")
-    .attr("class", "circlePart")
+    .attr("class", function(d) { if(d.depth == 2) return "modelLayer"; })
+    .attr("id", function(d) { return d.depth ? null : "internalCircle"; })
       .attr("d", arc)
-      .style("fill", "#4781b3")
+      //.style("fill", "#4781b3")
       //.style("opacity", .5)
-      // .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+      .style("fill", function(d) { return color((d.children ? d : d.parent).data.size); })
       .on("click", click)
     .append("title")
       .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
+
+  svg.selectAll(".modelLayer").on("click", function(d) {
+  var name = d.data.name.replace(/\s+/g,' ').trim().toUpperCase();
+  addCar(name);
+});
 });
 
 function click(d) {
@@ -56,10 +64,12 @@ function click(d) {
       })
     .selectAll("path")
       .attrTween("d", function(d) { return function() { return arc(d); }; });
-
-  var name = d.data.name.replace(/\s+/g,' ').trim().toUpperCase();
-  addCar(name);
 }
+
+
+
+
+
 
 
 d3.select(self.frameElement).style("height", height + "px");

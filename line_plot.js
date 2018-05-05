@@ -64,8 +64,8 @@ d3.csv("data_wide.csv", type, function(error, data) {
       .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
-        .attr("dy", "0.71em")
-        .attr("fill", "#000");
+        .attr("dy", "0.71em");
+        //.attr("fill", "#000");
       
     var line = d3.line()
         .curve(d3.curveBasis)
@@ -107,7 +107,8 @@ d3.csv("data_wide.csv", type, function(error, data) {
       // window.currentCars = currentCars.filter(function (d) {return namesOfCarModels.indexOf(d.replace(/\s+/g,' ')) > -1; });
       // window.currentCars = Array.from(new Set(currentCars));
 
-      currentCars.push(name);
+      if (name == undefined) {}
+        else {currentCars.push(name);}
       console.log(currentCars);
 
 
@@ -161,6 +162,13 @@ d3.csv("data_wide.csv", type, function(error, data) {
       currentCars = [];
       addCar();
     }
+
+    window.deletePreviousLine = function() {
+      currentCars.pop();
+      addCar();
+      console.log(currentCars);
+    }
+
 
     var substringMatcher = function(strs) {
       return function findMatches(q, cb) {
