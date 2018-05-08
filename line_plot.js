@@ -21,6 +21,8 @@ var x = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
     z = d3.scaleOrdinal(d3.schemeCategory1);
 
+//debugger;
+
 d3.csv("data_wide.csv", type, function(error, data) {
   if (error) throw error;
 
@@ -32,6 +34,7 @@ d3.csv("data_wide.csv", type, function(error, data) {
         })
       };
     });
+
 
 
 
@@ -80,12 +83,14 @@ d3.csv("data_wide.csv", type, function(error, data) {
       .attr("class", "car")
 
 
+
    car.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return z(d.id); })
       .style("opacity", .5)
-      .append("title")
+      .attr("id", function(d) { return d.id })
+      .append("title") 
         .text(function(d) { return d.id });
 
 
@@ -100,14 +105,7 @@ d3.csv("data_wide.csv", type, function(error, data) {
 
     window.addCar = function(name) {
 
-        var namesOfCarModels = [];
-        data.columns.slice(1).map(function(id) {return namesOfCarModels.push(id.replace(/\s+/g,' '))});
-
-     //Here is a place were I filter current cars in order to get counter list for the visual and data output
-      // window.currentCars = currentCars.filter(function (d) {return namesOfCarModels.indexOf(d.replace(/\s+/g,' ')) > -1; });
-      // window.currentCars = Array.from(new Set(currentCars));
-
-      if (name == undefined) {}
+      if (name == undefined || currentCars.includes(name) ) {}
         else {currentCars.push(name);}
       console.log(currentCars);
 
@@ -156,6 +154,14 @@ d3.csv("data_wide.csv", type, function(error, data) {
       carsUpd
         .exit()
         .remove();
+
+
+      d3.selectAll(".line").on("click", function(dd) {
+        alert(dd.id)
+        currentCars.splice( currentCars.indexOf(dd.id), 1 ); 
+        addCar();
+      });
+
     }
 
     window.emptyLineChart = function() {
@@ -168,6 +174,7 @@ d3.csv("data_wide.csv", type, function(error, data) {
       addCar();
       console.log(currentCars);
     }
+
 
 
     var substringMatcher = function(strs) {

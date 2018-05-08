@@ -1,82 +1,77 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<html>
+<head>
+</head>
 <style>
+    body {
+        font-family:"Lucida Grande","Droid Sans",Arial,Helvetica,sans-serif;
+    }
 
-.axis--x path {
-  display: none;
-}
+    .bld {
+        font-weight: bold;
+    }
 
-g.car path {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 3px;
-}
+    #cloudPlot svg .carTag {
+    	cursor: pointer;
+    }
 
-g path.circlePart {
-  stroke: #a2c0d9;
-  stroke-width: 1px;
-}
 
-path {
-  stroke: #fff;
-}
+    #linePlot .axis--x path {
+      display: none;
+    }
 
-.line:hover {
-				stroke: rgb(300, 0, 0);
-			}
+    #linePlot g.car path {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 3px;
+    }
 
-.circlePart:hover {
-				fill: rgb(300, 0, 0);
-			}
+    #linePlot g path {
+      stroke: #a2c0d9;
+      stroke-width: 1px;
+    }
 
-#internalCircle {
-	fill: #f0f8ff;
-	stroke: #f0f8ff;
-}
+    #linePlot path {
+      stroke: #fff;
+    }
 
-#sunChart {
-	transform: rotate(180deg);
-}
+    #linePlot .line:hover {
+    				stroke: rgb(300, 0, 0);
+    				stroke-width: 5px;
+    			}
 
-#sunChart  {
-	 position:absolute;  
-	 z-index:1;  
-	 left:100px;  
-	 top:75px;  
-}
-#linePlot  {
-	 position:absolute;  
-	 z-index:2;  
-	 left:400px;  
-	 top:100px; 
-}
+    #linePlot .circlePart:hover {
+    				fill: rgb(300, 0, 0);
+    			}
 
-#container {
-	display: inline-flex;
-	flex-direction: row-reverse;
-	height: 600px;
-}
+    #linePlot #Cars {
+    	fill: #f0f8ff;
+    	stroke: #f0f8ff;
+    }
 
 
 </style>
-<body style="background-color:#F0F8FF;">
-<div id="the-basics">
-	<input class="typeahead" type="text" placeholder="States of USA">
-	<button type="button" id="button">Click</button>
-	<button onclick="emptyLineChart()">Empty Line Chart</button> 
-	<button onclick="deletePreviousLine()">Delete Previous Line</button> 
-</div>
-
-
-<div id="container">
+<body>
+	<div id="tagCloudControle">
+		<button onclick="returnProducers()">Повернутися</button>
+		<div id="carProducerReturnTag"></div>
+	</div>
+    <div id="cloudPlot"></div>
+    <div id="the-basics">
+    	<input class="typeahead" type="text" placeholder="States of USA">
+    	<button type="button" id="button">Click</button>
+    	<button onclick="emptyLineChart()">Empty Line Chart</button> 
+    	<button onclick="deletePreviousLine()">Delete Previous Line</button> 
+    </div>
     <div id="linePlot"></div>
-    <div id="sunChart"></div>
-</div>
 
-<script src="https://d3js.org/d3.v4.js"></script>
+<script src="http://d3js.org/d3.v4.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+<script src="d3.layout.cloud.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="cloud_plot.js"></script>
 <script src="line_plot.js"></script>
-<script src="sun_plot.js"></script>
-
 </body>
+</html>
