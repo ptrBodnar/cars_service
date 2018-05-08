@@ -21,8 +21,6 @@ var x = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
     z = d3.scaleOrdinal(d3.schemeCategory1);
 
-//debugger;
-
 d3.csv("data_wide.csv", type, function(error, data) {
   if (error) throw error;
 
@@ -34,7 +32,6 @@ d3.csv("data_wide.csv", type, function(error, data) {
         })
       };
     });
-
 
 
 
@@ -154,14 +151,6 @@ d3.csv("data_wide.csv", type, function(error, data) {
       carsUpd
         .exit()
         .remove();
-
-
-      d3.selectAll(".line").on("click", function(dd) {
-        alert(dd.id)
-        currentCars.splice( currentCars.indexOf(dd.id), 1 ); 
-        addCar();
-      });
-
     }
 
     window.emptyLineChart = function() {
@@ -174,7 +163,6 @@ d3.csv("data_wide.csv", type, function(error, data) {
       addCar();
       console.log(currentCars);
     }
-
 
 
     var substringMatcher = function(strs) {
